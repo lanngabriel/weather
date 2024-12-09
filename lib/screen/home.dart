@@ -15,40 +15,41 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  //double cTPosition = -0.3; for animating
+  // for animating
+  //double cTPosition = -0.3;
   //double cLPosition = 3;
   //double rTPosition = -1.2;
   //double rLPosition = 0;
 
   Widget getWeatherIcon(int code) {
     switch (code) {
-      case >200 && <= 300:
+      case >=200 && <= 232: //thunderstorm
         return Image.asset(
           'ass/1.png'
         );
-      case >300 && <= 400:
+      case >=300 && <= 321: //drizzle
         return Image.asset(
             'ass/2.png'
         );
-      case >500 && <= 600:
+      case >=500 && <= 531: //rain
         return Image.asset(
             'ass/3.png'
         );
-      case >600 && <= 700:
+      case >=600 && <= 622: //snow
         return Image.asset(
             'ass/4.png'
         );
-      case >700 && <= 800:
+      case >=700 && <= 781: //atmosphere
         return Image.asset(
             'ass/5.png'
         );
-      case == 800:
+      case == 800:  //clear
         return Image.asset(
             'ass/6.png'
         );
-      case >800 && <= 804:
+      case >800 && <= 804:  //clouds
         return Image.asset(
-            'ass/7.png'
+            'ass/8.png'
         );
       default:
         return Image.asset(
@@ -129,7 +130,7 @@ class HomeState extends State<Home> {
                               fontWeight: FontWeight.w300,
                             ),
                           ),
-                          const SizedBox(height: 8,),
+                          const SizedBox(height: 3),
                           Text(
                             getGreetingMessage(),
                             style: const TextStyle(
