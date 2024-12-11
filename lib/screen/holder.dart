@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,14 +11,14 @@ import 'package:flutter/services.dart';
 import 'citysearch.dart';
 
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class aa extends StatefulWidget {
+  const aa({super.key});
 
   @override
-  State<Home> createState() => HomeState();
+  State<aa> createState() => aaState();
 }
 
-class HomeState extends State<Home> {
+class aaState extends State<aa> {
   // for animating
   //double cTPosition = -0.3;
   //double cLPosition = 3;
@@ -30,7 +29,7 @@ class HomeState extends State<Home> {
     switch (code) {
       case >=200 && <= 232: //thunderstorm
         return Image.asset(
-          'ass/1.png'
+            'ass/1.png'
         );
       case >=300 && <= 321: //drizzle
         return Image.asset(
@@ -58,7 +57,7 @@ class HomeState extends State<Home> {
         );
       default:
         return Image.asset(
-          'ass/7.png'
+            'ass/7.png'
         );
     }
   }
@@ -84,7 +83,7 @@ class HomeState extends State<Home> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarBrightness: Brightness.dark
+            statusBarBrightness: Brightness.dark
         ),
       ),
       body: Padding(
@@ -120,12 +119,11 @@ class HomeState extends State<Home> {
                 ),
               ),
               BlocBuilder<WeatherBloc,WeatherState>(
-                builder: (context, state) {
-                  if (state is WeatherSucc) {
-                    return SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      child: SingleChildScrollView(
+                  builder: (context, state) {
+                    if (state is WeatherSucc) {
+                      return SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -133,33 +131,29 @@ class HomeState extends State<Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 GestureDetector(
-                                  onTap: () async {
-                                    final selectedCity = await Navigator.push(
+                                  onTap: () {
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const SearchPage(),
+                                        builder: (context) {
+                                          return const SearchPage();
+                                        },
                                       ),
                                     );
-                                    if (selectedCity != null) {
-                                      Position userPosition = await Geolocator.getCurrentPosition();
-                                     context.read<WeatherBloc>().add(getWeather(position: userPosition,city: selectedCity));
-                                    }
                                   },
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       GestureDetector(
                                         onTap: () async {
-                                          final selectedCity = await Navigator.push(
+                                          await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => const SearchPage(),
+                                              builder: (context) {
+                                                return const SearchPage();
+                                              },
                                             ),
                                           );
-                                          if (selectedCity != null) {
-                                            Position userPosition = await Geolocator.getCurrentPosition();
-                                            context.read<WeatherBloc>().add(getWeather(position: userPosition,city: selectedCity));
-                                          }
                                         },
                                         child: Row(
                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -179,7 +173,7 @@ class HomeState extends State<Home> {
                                           ],
                                         ),
                                       ),
-                                  
+
                                       const SizedBox(height: 3),
                                       Text(
                                         getGreetingMessage(),
@@ -246,74 +240,15 @@ class HomeState extends State<Home> {
                             ),
                           ],
                         ),
-                      ),
-                    );
-
+                      );
+                    } else {
+                      return const Scaffold(
+                          body: Center(
+                              child: CircularProgressIndicator()
+                          )
+                      );
+                    }
                   }
-                  else if(state is WeatherLoad){
-                    return Stack(
-                      children: [
-                        Container(
-                          color: Colors.transparent,
-                        ),
-                        const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
-                    );
-                  }
-                  else {
-                    return Stack(
-                      children: [
-                        Container(
-                          color: Colors.transparent,
-                        ),
-                         Center(
-                          child: AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            title: const Text('Invalid Location',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            titlePadding: const EdgeInsets.only(top:15, left: 15,bottom: 5),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
-                            actionsPadding: const EdgeInsets.only(top: 0, right: 5, bottom: 5),
-                            content: const SizedBox(
-                              width: 200,
-                              height: 20,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text('Please',
-                                style: TextStyle(fontSize: 12),
-                                ),
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () async {
-                                  final selectedCity = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const SearchPage(),
-                                    ),
-                                  );
-                                  if (selectedCity != null) {
-                                    Position userPosition = await Geolocator.getCurrentPosition();
-                                    context.read<WeatherBloc>().add(getWeather(position: userPosition,city: selectedCity));
-                                  }
-                                },
-                                child: const Text(
-                                  'Close',
-                                ),
-                              ),
-                            ],
-                          ),
-                         ),
-                      ],
-                    );
-                  }
-                }
               ),
             ],
           ),

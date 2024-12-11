@@ -20,17 +20,26 @@ class MyApp extends StatelessWidget {
         future: getPosition(),
         builder: (context, snap) {
           if(snap.hasData) {
+            String? selectedCity;
             return BlocProvider(
               create: (context) =>
               WeatherBloc()
-                ..add(getWeather(snap.data as Position)),
+                ..add(getWeather(
+                    position: snap.data as Position,
+                    city: selectedCity
+                )),
               child: const Home(),
             );
           } else {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator()
-              )
+            return Stack(
+              children: [
+                Container(
+                  color: Colors.transparent,
+                ),
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ],
             );
           }
         }
